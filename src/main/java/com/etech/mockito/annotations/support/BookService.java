@@ -1,4 +1,4 @@
-package com.etech.mockito.test_doubles.stub;
+package com.etech.mockito.annotations.support;
 
 import java.util.List;
 
@@ -20,8 +20,6 @@ public class BookService {
             int newPrice = price -  (discountRate * price / 100);
             temp.setPrice(newPrice);
         }
-
-
 
 
         return newBooks;

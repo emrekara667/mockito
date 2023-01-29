@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRepositoryStub implements BookRepository {
+public class  BookRepositoryStub implements BookRepository {
     @Override
     public List<Book> findNewBooks(int days) {
         List<Book> newBooks = new ArrayList<>();
