@@ -38,7 +38,7 @@ public class BookServiceTest {
 
         // Execute
         bookService.addBook(bookRequest); // ==
-        verify(bookRepository, times(0)).save(book);
+        verify(bookRepository, times(1)).save(book);
     }
 
     @Test
@@ -66,13 +66,13 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testUpdatePrice(){
+    public void testUpdatePrice() {
         bookService.updatePrice(null, 600);
         verifyNoInteractions(bookRepository);
     }
 
     @Test
-    public void testUpdatePrice2(){
+    public void testUpdatePrice2() {
         Book book = new Book("1234", "Mockito in action", 500, LocalDate.now());
         when(bookRepository.findBookById("1234")).thenReturn(book);
         bookService.updatePrice("1234", 500);
@@ -81,7 +81,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testUpdatePrice3(){
+    public void testUpdatePrice3() {
         Book book = new Book("1234", "Mockito in action", 500, LocalDate.now());
         when(bookRepository.findBookById("1234")).thenReturn(book);
         bookService.updatePrice("1234", 500);
@@ -91,8 +91,6 @@ public class BookServiceTest {
         inOrder.verify(bookRepository).save(book);
         verifyNoMoreInteractions(bookRepository);
     }
-
-
 
     @Test
     public void testSaveBookWithBookRequest4() {
@@ -112,23 +110,4 @@ public class BookServiceTest {
         //verify(bookRepository, atMostOnce()).save(book);
         verify(bookRepository, atLeastOnce()).save(book);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.etech.mockito.behaviour.verification;
+package com.etech.mockito.argument_captor;
 
 public class BookService {
 
