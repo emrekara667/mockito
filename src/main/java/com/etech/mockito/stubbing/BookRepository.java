@@ -9,4 +9,6 @@ public interface  BookRepository {
     Book findBookByBookId(String bookId);
 
     void save(Book book);
+
+    Book persist(Book book);
 }

@@ -46,4 +46,19 @@ public class BookService {
                 bookRequest.getPublishedDate());
         bookRepository.save(book);
     }
+
+    public Book saveTwoBook(){
+
+
+        Book book1 = new Book();
+        book1.setTitle("book first");
+        Book savedBook1 = bookRepository.persist(book1);
+
+        Book book2 = new Book();
+        book2.setTitle("book second");
+        Book savedBook2 = bookRepository.persist(book2);
+
+
+        return savedBook2;
+    }
 }

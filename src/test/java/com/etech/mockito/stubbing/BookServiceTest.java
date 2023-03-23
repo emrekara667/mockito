@@ -2,6 +2,7 @@ package com.etech.mockito.stubbing;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
@@ -64,4 +65,24 @@ public class BookServiceTest {
         bookService.addBook(bookRequest); // ==
     }
 
+    @Test
+    void saveTwoBook() {
+
+        Book book1 = new Book();
+        Book book2 = new Book();
+        book2.setTitle("book second");
+
+        when(bookRepository.persist(any())).thenReturn(null).thenReturn(book2);
+
+        Book response = bookService.saveTwoBook();
+
+        ArgumentCaptor<Book> captor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository, times(2)).persist(captor.capture());
+        List<Book> allValues = captor.getAllValues();
+        assertEquals("book first", allValues.get(0).getTitle());
+        assertEquals("book second", allValues.get(1).getTitle());
+        assertEquals("book second", response.getTitle());
+
+
+    }
 }
