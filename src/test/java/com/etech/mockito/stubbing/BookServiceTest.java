@@ -68,20 +68,20 @@ public class BookServiceTest {
     @Test
     void saveTwoBook() {
 
-        Book book1 = new Book();
-        Book book2 = new Book();
-        book2.setTitle("book second");
-
-        when(bookRepository.persist(any())).thenReturn(null).thenReturn(book2);
+        when(bookRepository.persist(any())).thenReturn(null).then(invocationOnMock -> {
+            Book argument = invocationOnMock.getArgument(0);
+            argument.setTitle("invocation");
+            return argument;
+        });
 
         Book response = bookService.saveTwoBook();
 
         ArgumentCaptor<Book> captor = ArgumentCaptor.forClass(Book.class);
         verify(bookRepository, times(2)).persist(captor.capture());
         List<Book> allValues = captor.getAllValues();
-        assertEquals("book first", allValues.get(0).getTitle());
-        assertEquals("book second", allValues.get(1).getTitle());
-        assertEquals("book second", response.getTitle());
+        assertEquals("book first", allValues.get(0).getTitle(),"1");
+        assertEquals("invocation", allValues.get(1).getTitle(),"2");
+        assertEquals("invocation", response.getTitle(),"3");
 
 
     }

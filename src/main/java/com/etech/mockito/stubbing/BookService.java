@@ -50,15 +50,16 @@ public class BookService {
     public Book saveTwoBook(){
 
 
-        Book book1 = new Book();
-        book1.setTitle("book first");
-        Book savedBook1 = bookRepository.persist(book1);
+        extracted();
 
         Book book2 = new Book();
         book2.setTitle("book second");
-        Book savedBook2 = bookRepository.persist(book2);
+        return bookRepository.persist(book2);
+    }
 
-
-        return savedBook2;
+    private void extracted() {
+        Book book1 = new Book();
+        book1.setTitle("book first");
+        Book savedBook1 = bookRepository.persist(book1);
     }
 }
