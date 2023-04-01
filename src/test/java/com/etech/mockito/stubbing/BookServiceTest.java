@@ -2,6 +2,7 @@ package com.etech.mockito.stubbing;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
@@ -64,4 +65,24 @@ public class BookServiceTest {
         bookService.addBook(bookRequest); // ==
     }
 
+    @Test
+    void saveTwoBook() {
+
+        when(bookRepository.persist(any())).thenReturn(null).then(invocationOnMock -> {
+            Book argument = invocationOnMock.getArgument(0);
+            argument.setTitle("invocation");
+            return argument;
+        });
+
+        Book response = bookService.saveTwoBook();
+
+        ArgumentCaptor<Book> captor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository, times(2)).persist(captor.capture());
+        List<Book> allValues = captor.getAllValues();
+        assertEquals("book first", allValues.get(0).getTitle(),"1");
+        assertEquals("invocation", allValues.get(1).getTitle(),"2");
+        assertEquals("invocation", response.getTitle(),"3");
+
+
+    }
 }
